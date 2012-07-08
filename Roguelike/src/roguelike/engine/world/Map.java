@@ -27,14 +27,26 @@ public class Map
 		
 		//TODO: Generate map or load from file.
 		map = new int[width][height];
-		for(int i = 0; i < width; i++)
-			for(int j = 0; j < height; j++)
+		for(int i = 1; i < width-1; i++)
+			for(int j = 1; j < height-1; j++)
 				map[i][j] = MapConstants.FLOOR_GREY;
+		
+		for(int i = 1; i < width - 1; i++)
+		{
+			map[i][0] = MapConstants.TOP_WALL;
+			map[i][height-1] = MapConstants.BOTTOM_WALL;
+		}
+		
+		for(int j = 1; j < height - 1; j++)
+		{
+			map[0][j] = MapConstants.LEFT_WALL;
+			map[width-1][j] = MapConstants.RIGHT_WALL;
+		}
 	}
 	
 	public int get(int x, int y) throws MapIndexOutOfBoundsException
 	{
-		if(x < 0 || x > width || y < 0 || y > height)
+		if(x < 0 || x >= width || y < 0 || y >= height)
 		{
 			String errorMessage = "Attempt to access outside " +
 					"of the bounds of the Map.";
@@ -47,5 +59,15 @@ public class Map
 		{
 			return map[x][y];
 		}
+	}
+	
+	public int getWidth()
+	{
+		return width;
+	}
+	
+	public int getHeight()
+	{
+		return height;
 	}
 }

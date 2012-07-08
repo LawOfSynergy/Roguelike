@@ -1,3 +1,16 @@
 # Maps the Tile IDs to image file names.
 # Format is: 
 # id path
+
+# set base path
+setpath assets/graphics/
+
+setpath ./walls/
+
+101 leftwall.png
+102 rightwall.png
+103 topwall.png
+104 bottomwall.png
+
+setpath ../floors/
+1 greyfloor.png

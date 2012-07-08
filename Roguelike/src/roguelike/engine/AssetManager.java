@@ -7,16 +7,21 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+import roguelike.exceptions.UnitializedGraphicsException;
+
 public class AssetManager 
 {
 	static String tileFileLocation = "assets/graphics/tile.txt";
-	static Map<Integer, Image> imageMap;
+	static Map<Integer, Image> tileMap;
+
+	static boolean initialized = false;
 	
 	private AssetManager()
 	{
 		
 	}
-	
+
+	/*
 	static
 	{
 		try 
@@ -27,23 +32,31 @@ public class AssetManager
 			e.printStackTrace();
 		}
 	}
+	*/
 	
-	public Image getImage(int id)
+	public static Image getImageForTile(int id) throws UnitializedGraphicsException
 	{
-		return imageMap.get(id);
+		if(!initialized)
+			throw new UnitializedGraphicsException();
+		return tileMap.get(id);
 	}
 	
 	public static void initialize() throws IOException
 	{
 		loadGraphicalAssets();
+		
+		initialized = true;
 	}
 	
 	public static void loadGraphicalAssets() throws IOException
 	{
+		
+		//tiles
 		File mapFile = new File(tileFileLocation);
 		BufferedReader fileStream = new BufferedReader(new FileReader(mapFile));
 		String line;
-		imageMap = new HashMap<Integer, Image>();
+		tileMap = new HashMap<Integer, Image>();
+		String path = "";
 		
 		while((line = fileStream.readLine()) != null)
 		{
@@ -58,18 +71,46 @@ public class AssetManager
 				//Line isn't empty
 				if(!line.equals(""))
 				{
-					String[] map = line.split(" ");
-					
-					int tileID = Integer.parseInt(map[0]);
-					
-					File file = new File(map[1]);
-					if(!file.exists())
+					if(line.startsWith("setpath"))
 					{
-						throw new FileNotFoundException();
+						String newPath = line.split(" ")[1];
+						
+						// ./filepath - maintains current path
+						if(newPath.startsWith("./"))
+						{
+							path += newPath.substring(newPath.indexOf(".")+1);
+						}
+						
+						// ../filepath - moves up one directory
+						else if(newPath.startsWith("../"))
+						{
+							path = path.substring(0, path.lastIndexOf('/'));
+							path = path.substring(0, path.lastIndexOf('/'));
+							path += newPath.substring(newPath.indexOf("/")+1);
+						}
+						
+						else
+						{
+							path = newPath;
+						}
 					}
 					
-					imageMap.put(Integer.parseInt(map[0]),
-							ImageIO.read(file));
+					else
+					{
+						String[] map = line.split(" ");
+						
+						int tileID = Integer.parseInt(map[0]);
+						
+						File file = new File(path+map[1]);
+						
+						if(!file.exists())
+						{
+							throw new FileNotFoundException();
+						}
+						
+						tileMap.put(Integer.parseInt(map[0]),
+								ImageIO.read(file));
+					}
 				}
 			}
 		}

@@ -2,16 +2,16 @@ package roguelike.engine.world;
 
 public class MapConstants 
 {
-	public static final int DEFAULT_MAP_WIDTH = 300;
-	public static final int DEFAULT_MAP_HEIGHT = 300;
+	public static final int DEFAULT_MAP_WIDTH = 20;
+	public static final int DEFAULT_MAP_HEIGHT = 20;
 	
 	/**
 	 * Tile IDs
 	 * These are used to represent the different types 
 	 * of tiles in the map. The art assets are linked in the 
-	 * graphicmap.txt file in assets/graphics.
+	 * tile.txt file in assets/graphics.
 	 */
-	
+		
 	//Different Wall Orientations
 	private static final int WALL = 100;
 		public static final int LEFT_WALL = WALL + 1;

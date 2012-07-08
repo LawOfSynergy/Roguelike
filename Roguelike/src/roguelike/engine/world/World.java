@@ -26,4 +26,9 @@ public class World
 		player = new PlayerCharacter(0, new Point(0, 0));
 		otherEntities = new ArrayList<Entity>();
 	}
+	
+	public Map getMap()
+	{
+		return map;
+	}
 }
