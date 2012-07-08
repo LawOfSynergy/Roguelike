@@ -1,0 +1,34 @@
+# Maps the Tile IDs to image file names.
+# Format is: 
+# id path
+# path must use / as a separator and must end with a /
+
+# set base path
+setpath assets/graphics/tiles/
+
+# load null tile
+-1 nulltile.png
+
+
+	# load regular walls
+	setpath ./walls/
+	
+		100 defaultwall.png
+		101 horizontalwall.png
+		102 verticalwall.png
+		
+		# load boundary walls
+		setpath ./boundary/
+			
+			201 leftwall.png
+			202 rightwall.png
+			203 topwall.png
+			204 bottomwall.png
+			
+		setpath ../
+	
+	# load floors
+	setpath ../floors/
+	
+		0 defaultfloor.png
+		1 greyfloor.png

@@ -7,11 +7,12 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+import roguelike.engine.world.MapConstants;
 import roguelike.exceptions.UnitializedGraphicsException;
 
 public class AssetManager 
 {
-	static String tileFileLocation = "assets/graphics/tile.txt";
+	static String tileFileLocation = "assets/graphics/tiles/tile.txt";
 	static Map<Integer, Image> tileMap;
 
 	static boolean initialized = false;
@@ -38,7 +39,10 @@ public class AssetManager
 	{
 		if(!initialized)
 			throw new UnitializedGraphicsException();
-		return tileMap.get(id);
+		Image output = tileMap.get(id);
+		if(output == null)
+			output = tileMap.get(MapConstants.NULL_TILE);
+		return output;
 	}
 	
 	public static void initialize() throws IOException
@@ -50,7 +54,6 @@ public class AssetManager
 	
 	public static void loadGraphicalAssets() throws IOException
 	{
-		
 		//tiles
 		File mapFile = new File(tileFileLocation);
 		BufferedReader fileStream = new BufferedReader(new FileReader(mapFile));
@@ -58,8 +61,14 @@ public class AssetManager
 		tileMap = new HashMap<Integer, Image>();
 		String path = "";
 		
+		int lineNumber = 0;
+		
 		while((line = fileStream.readLine()) != null)
 		{
+			lineNumber++;
+		
+			line = line.trim();
+			
 			//# means the line is a comment
 			if(line.startsWith("#"))
 			{
@@ -105,7 +114,7 @@ public class AssetManager
 						
 						if(!file.exists())
 						{
-							throw new FileNotFoundException();
+							throw new FileNotFoundException("File " + file.getPath() + " specified in line " + lineNumber + " cannot be found!");
 						}
 						
 						tileMap.put(Integer.parseInt(map[0]),

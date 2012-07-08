@@ -1,5 +1,8 @@
 package roguelike.engine.world;
 
+import java.awt.Point;
+import java.util.ArrayList;
+
 import roguelike.exceptions.MapIndexOutOfBoundsException;
 
 /**
@@ -33,14 +36,14 @@ public class Map
 		
 		for(int i = 1; i < width - 1; i++)
 		{
-			map[i][0] = MapConstants.TOP_WALL;
-			map[i][height-1] = MapConstants.BOTTOM_WALL;
+			map[i][0] = MapConstants.BOTTOM_BOUNDARY_WALL;
+			map[i][height-1] = MapConstants.TOP_BOUNDARY_WALL;
 		}
 		
 		for(int j = 1; j < height - 1; j++)
 		{
-			map[0][j] = MapConstants.LEFT_WALL;
-			map[width-1][j] = MapConstants.RIGHT_WALL;
+			map[0][j] = MapConstants.RIGHT_BOUNDARY_WALL;
+			map[width-1][j] = MapConstants.LEFT_BOUNDARY_WALL;
 		}
 	}
 	
