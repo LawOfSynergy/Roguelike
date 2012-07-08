@@ -1,0 +1,3 @@
+# Maps the Tile IDs to image file names.
+# Format is: 
+# id path
